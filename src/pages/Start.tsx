@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
  * 
  * @returns 
  */
-export default function Start() {
+export default function Start(): ReactElement {
   return (
     <div className="min-h-screen min-w-screen bg-[#282c34] flex flex-col px-20 py-40 space-y-4">
       <div className="grid place-items-center">
@@ -57,9 +57,9 @@ function SearchIngredientsBar(): ReactElement {
           </svg>
         </div>
         <input 
-          type="search" 
+          type="text" 
           id="default-search" 
-          className="block p-4 pl-10 text-sm text-gray-900 border rounded-lg bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500" 
+          className="block p-4 pl-10 pr-24 text-sm text-gray-900 border rounded-lg bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500" 
           value={ingredientQuery} 
           placeholder="Search Ingredients" 
           onChange={((event: React.ChangeEvent<HTMLInputElement>) => {
