@@ -30,7 +30,11 @@ function SearchIngredientsBar(): ReactElement {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    navigate('',)
+    navigate('/recipe', {
+      state: {
+        query: ingredientQuery
+      }
+    });
   };
 
   return (
