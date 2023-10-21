@@ -9,12 +9,17 @@ export default function Start(): ReactElement {
   return (
     <div className="min-h-screen min-w-screen bg-[#282c34] flex flex-col px-20 py-40 space-y-4">
       <div className="grid place-items-center">
-        <h2 className="text-3xl font-medium text-white">
+        <h2 className="text-4xl font-semibold text-white">
           Recipe Query
         </h2>
       </div>
       <div className="grid place-items-center">
-        <SearchIngredientsBar />
+        <div className="flex flex-col items-start space-y-1">
+          <div className="ml-1 text-base text-white font-medium content-start">
+            Search Ingredient
+          </div>
+          <SearchIngredientsBar />
+        </div>
       </div>
     </div>  
   );
@@ -66,7 +71,7 @@ function SearchIngredientsBar(): ReactElement {
           id="default-search" 
           className="block p-4 pl-10 pr-24 text-sm text-gray-900 border rounded-lg bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500" 
           value={ingredientQuery} 
-          placeholder="Search Ingredients" 
+          placeholder="ing1, ing2, ing3, ..." 
           onChange={((event: React.ChangeEvent<HTMLInputElement>) => {
             setIngredientQuery(event.target.value);
           })}
