@@ -1,6 +1,6 @@
 import React, { ReactElement, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { FIND_BY_INGREDIENTS_URL } from '../constants';
+import { API_KEY, FIND_BY_INGREDIENTS_URL } from '../constants';
 
 /**
  * 
@@ -10,7 +10,7 @@ export default function RecipePage(): ReactElement {
 	const location = useLocation();
 
 	const getRecipe = (ingredients: String) => {
-		fetch(`${FIND_BY_INGREDIENTS_URL}?ingredients=${ingredients}`)
+		fetch(`${FIND_BY_INGREDIENTS_URL}?${API_KEY}&ingredients=${ingredients}&number=100`)
 	};
 
   return (
