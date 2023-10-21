@@ -30,6 +30,7 @@ function SearchIngredientsBar(): ReactElement {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
     navigate('/recipe', {
       state: {
         query: ingredientQuery
@@ -69,7 +70,6 @@ function SearchIngredientsBar(): ReactElement {
           onChange={((event: React.ChangeEvent<HTMLInputElement>) => {
             setIngredientQuery(event.target.value);
           })}
-          required
         />
         <button 
           type="submit" 
