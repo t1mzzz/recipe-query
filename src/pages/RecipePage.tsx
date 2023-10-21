@@ -1,5 +1,6 @@
 import React, { ReactElement, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { FIND_BY_INGREDIENTS_URL } from '../constants';
 
 /**
  * 
