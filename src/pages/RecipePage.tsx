@@ -9,6 +9,10 @@ import { FIND_BY_INGREDIENTS_URL } from '../constants';
 export default function RecipePage(): ReactElement {
 	const location = useLocation();
 
+	const getRecipe = (ingredients: String) => {
+		fetch(`${FIND_BY_INGREDIENTS_URL}?ingredients=${ingredients}`)
+	};
+
   return (
 		location.state != null
 			? <div className="min-h-screen min-w-screen bg-[#282c34] flex flex-col px-20 py-40 space-y-4">
@@ -18,6 +22,7 @@ export default function RecipePage(): ReactElement {
 						</h2>
 					</div>
 					<div className="grid place-items-center">
+
 					</div>
 				</div>
 			: <div className="min-h-screen min-w-screen bg-[#282c34] grid place-items-center">
