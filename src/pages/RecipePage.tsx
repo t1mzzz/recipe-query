@@ -1,6 +1,7 @@
-import React, { ReactElement, useState } from 'react';
+import React, { ReactElement, useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { API_KEY, FIND_BY_INGREDIENTS_URL } from '../constants';
+import { Recipe, initialRecipes } from '../interfaces/recipe';
 
 /**
  * 
@@ -8,16 +9,45 @@ import { API_KEY, FIND_BY_INGREDIENTS_URL } from '../constants';
  */
 export default function RecipePage(): ReactElement {
 	const location = useLocation();
+	const [recipes, setRecipes] = useState<Recipe[]>(initialRecipes);
+
+	const splitIngredients = (ingredients: String) => {
+		const split = ingredients.split(',');
+		var ingredientsString = '';
+		for (var i = 0; i < split.length; i++) {
+			const currentIngredient = split[i].trim();
+			
+			ingredientsString += currentIngredient;
+
+			if (i < split.length - 1) {
+				ingredientsString += ',+'
+			}
+		}
+
+		return ingredientsString
+	}
 
 	const getRecipe = (ingredients: String) => {
-		fetch(`${FIND_BY_INGREDIENTS_URL}?${API_KEY}&ingredients=${ingredients}&number=100`)
+		const ingredientsString = splitIngredients(ingredients);
+
+		// console.log(`${FIND_BY_INGREDIENTS_URL}?${API_KEY}&ingredients=${ingredientsString}&number=100`);
+
+		fetch(`${FIND_BY_INGREDIENTS_URL}?${API_KEY}&ingredients=${ingredientsString}&number=100`)
+			.then((response: Response) => response.json())
+			.then((data) => {
+				setRecipes(data);
+			})
 	};
+
+	useEffect(() => {
+		getRecipe(location.state.query);
+	}, []);
 
   return (
 		location.state != null
 			? <div className="min-h-screen min-w-screen bg-[#282c34] flex flex-col px-20 py-40 space-y-4">
 					<div className="grid place-items-center">
-						<h2 className="text-3xl font-semibold text-white">
+						<h2 className="text-4xl font-semibold text-white">
 							Random Recipe
 						</h2>
 					</div>
