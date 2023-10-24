@@ -133,8 +133,10 @@ export default function RecipePage(): ReactElement {
 }
 
 /**
- * 
- * @returns A button that generates another random recipe with current ingredients on click
+ * Displays a button to switch between recipes with current input.
+ *
+ * @param param0 A callback function that switches the recipes.
+ * @returns A button that generates another random recipe with current ingredients on click.
  */
 function GenerateNewRecipe({setNewRecipe}: any): ReactElement {
 	return (
@@ -147,6 +149,11 @@ function GenerateNewRecipe({setNewRecipe}: any): ReactElement {
 	)
 }
 
+/**
+ * Displays a button to switch back to the home page.
+ * 
+ * @returns A button that navigates back to the home page on click.
+ */
 function ButtonToStartPage(): ReactElement {
 	const navigate = useNavigate();
 
