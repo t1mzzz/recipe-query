@@ -22,7 +22,7 @@ export default function RecipePage(): ReactElement {
 	 */
 	const getRandomInt = (max: number): number => {
 		const newRandom: number = Math.floor(Math.random() * max);
-		return newRandom === recentIndex 
+		return !(max < 2) && newRandom === recentIndex 
 			? getRandomInt(max)
 			: newRandom
 	};
@@ -109,11 +109,14 @@ export default function RecipePage(): ReactElement {
 								<img src={recipeToDisplay != undefined ? recipeToDisplay.image : ''} alt={recipeToDisplay != undefined ? recipeToDisplay.title : ''}/>
 							</div>
 						</div>
-						<div className="grid place-items-center">
-							<GenerateNewRecipe setNewRecipe={() => {
-								setRecipeToDisplay(recipes[getRandomInt(recipes.length)]);
-							}}/>
-						</div>
+						{recipes.length > 1
+							? <div className="grid place-items-center">
+									<GenerateNewRecipe setNewRecipe={() => {
+										setRecipeToDisplay(recipes[getRandomInt(recipes.length)]);
+									}}/>
+								</div>
+							: <div></div>
+						}
 						<div className="grid place-items-center">
 							<ButtonToStartPage/>
 						</div>
