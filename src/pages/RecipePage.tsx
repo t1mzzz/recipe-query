@@ -2,6 +2,7 @@ import React, { MouseEventHandler, ReactElement, useEffect, useState } from 'rea
 import { useNavigate, useLocation } from 'react-router-dom';
 import { API_KEY, FIND_BY_INGREDIENTS_URL } from '../constants';
 import { Recipe, initialRecipe, initialRecipes } from '../interfaces/recipe';
+import DetailsModal from '../components/details_modal';
 
 /**
  * 
@@ -12,7 +13,7 @@ export default function RecipePage(): ReactElement {
 	const [recipes, setRecipes] = useState<Recipe[]>(initialRecipes);
 	const [recipeToDisplay, setRecipeToDisplay] = useState<Recipe>(initialRecipe);
 	const [recentIndex, setRecentIndex] = useState<number>(-1);
-	const [isLoading, setIsLoading] = useState<boolean>(false);
+	const [displayDetails, setDisplayDetails] = useState<boolean>(false);
 
 	/**
 	 * Generates a random integer from 0 to less than max.
@@ -57,8 +58,6 @@ export default function RecipePage(): ReactElement {
 	const getRecipe = (ingredients: String): void => {
 		const ingredientsString = splitIngredients(ingredients);
 
-		console.log(`${FIND_BY_INGREDIENTS_URL}?${API_KEY}&ingredients=${ingredientsString}&number=100`);
-
 		fetch(`${FIND_BY_INGREDIENTS_URL}?${API_KEY}&ingredients=${ingredientsString}&number=100`)
 			.then((response: Response) => response.json())
 			.then((data: Recipe[]) => {
@@ -75,7 +74,6 @@ export default function RecipePage(): ReactElement {
 	 */
 	useEffect(() => { // useEffect hook 
 		// setTimeout(() => { // simulate a delay 
-			// setIsLoading(true);
 		getRecipe(location.state.query);
 		console.log(recipes)
 		// }, 2000); 
@@ -88,39 +86,51 @@ export default function RecipePage(): ReactElement {
 		setRecentIndex(getRandomInt(recipes.length));
 		setRecipeToDisplay(recipes[recentIndex]);
 		console.log("RECIPE TO DISPLAY", recipeToDisplay);
-		setIsLoading(false);
-	}, [recipes])
+	}, [recipes]);
+
+	const openDetails = () => { 
+			setDisplayDetails(true);
+	}
 
   return (
 		location.state != null
-			? isLoading 
-				? <div>
-					LOADING
-				</div>
-				: <div className="min-h-screen min-w-screen bg-[#282c34] flex flex-col px-20 py-40 space-y-4 text-white">
-						<div className="grid place-items-center">
-							<h2 className="text-4xl font-semibold">
-								Random Recipe
-							</h2>
+			? <div className="min-h-screen min-w-screen bg-[#282c34] flex flex-col px-20 py-40 space-y-4 text-white">
+					<div className="grid place-items-center">
+						<h2 className="text-4xl font-semibold">
+							Random Recipe
+						</h2>
+					</div>
+					<div className="grid place-items-center">
+						{recipeToDisplay != undefined ? recipeToDisplay.title : ''}
+						<div className="m-4">
+							<img src={recipeToDisplay != undefined ? recipeToDisplay.image : ''} alt={recipeToDisplay != undefined ? recipeToDisplay.title : ''}/>
 						</div>
-						<div className="grid place-items-center">
-							{recipeToDisplay != undefined ? recipeToDisplay.title : ''}
-							<div className="m-4">
-								<img src={recipeToDisplay != undefined ? recipeToDisplay.image : ''} alt={recipeToDisplay != undefined ? recipeToDisplay.title : ''}/>
-							</div>
-						</div>
-						{recipes.length > 1
-							? <div className="grid place-items-center">
+					</div>
+					{recipes.length > 1
+						? <div className="flex flex-col space-y-2">
+								<div className="grid place-items-center">
 									<GenerateNewRecipe setNewRecipe={() => {
 										setRecipeToDisplay(recipes[getRandomInt(recipes.length)]);
 									}}/>
 								</div>
-							: <div></div>
-						}
-						<div className="grid place-items-center">
-							<ButtonToStartPage/>
-						</div>
+								<div className="grid place-items-center">
+									<div 
+										className="w-fit rounded-lg text-white px-6 py-2 bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-800 font-medium cursor-pointer grid place-items-center"
+										onClick={openDetails}
+									>
+										Check Recipe Details
+									</div>
+								</div>
+							</div>
+						: <div></div>
+					}
+					<div className="grid place-items-center">
+						<ButtonToStartPage/>
 					</div>
+					{
+						displayDetails && <DetailsModal recipe={recipeToDisplay} setDisplayDetails={setDisplayDetails}/>
+					}
+				</div>
 			: <div className="min-h-screen min-w-screen bg-[#282c34] grid place-items-center">
 					<div className="flex flex-col space-y-4 place-items-center">
 						<div className="text-white text-4xl">

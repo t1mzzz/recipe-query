@@ -8,7 +8,7 @@ export interface Recipe {
     missedIngredients: Ingredient[],
 }
 
-interface Ingredient {
+export interface Ingredient {
     id: number,
     amount: number,
     unit: string,
