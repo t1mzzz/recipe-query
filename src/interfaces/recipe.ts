@@ -23,11 +23,10 @@ interface Ingredient {
     image: string
 }
 
-export const initialRecipes: Recipe[] = []
-
 const initialMissedIngredients: Ingredient[] = [];
 
-export const initialRecipe = {
+
+export const initialRecipe: Recipe = {
     id: -1,
     title: "",
     image: "",
@@ -36,3 +35,7 @@ export const initialRecipe = {
     missedIngredientCount: -1,
     missedIngredients: initialMissedIngredients
 }
+
+export const initialRecipes: Recipe[] = []
+
+

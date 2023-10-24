@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect, useState } from 'react';
+import React, { MouseEventHandler, ReactElement, useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { API_KEY, FIND_BY_INGREDIENTS_URL } from '../constants';
 import { Recipe, initialRecipe, initialRecipes } from '../interfaces/recipe';
@@ -12,7 +12,7 @@ export default function RecipePage(): ReactElement {
 	const [recipes, setRecipes] = useState<Recipe[]>(initialRecipes);
 	const [recipeToDisplay, setRecipeToDisplay] = useState<Recipe>(initialRecipe);
 	const [recentIndex, setRecentIndex] = useState<number>(-1);
-	const [hasLoaded, setHasLoaded] = useState<boolean>(false);
+	const [isLoading, setIsLoading] = useState<boolean>(false);
 
 	/**
 	 * Generates a random integer from 0 to less than max.
@@ -54,59 +54,70 @@ export default function RecipePage(): ReactElement {
 	 * 
 	 * @param ingredients The user's raw and unchanged input ingredients.
 	 */
-	const getRecipe = async (ingredients: String): Promise<void> => {
+	const getRecipe = (ingredients: String): void => {
 		const ingredientsString = splitIngredients(ingredients);
 
 		console.log(`${FIND_BY_INGREDIENTS_URL}?${API_KEY}&ingredients=${ingredientsString}&number=100`);
 
-		await fetch(`${FIND_BY_INGREDIENTS_URL}?${API_KEY}&ingredients=${ingredientsString}&number=100`)
+		fetch(`${FIND_BY_INGREDIENTS_URL}?${API_KEY}&ingredients=${ingredientsString}&number=100`)
 			.then((response: Response) => response.json())
 			.then((data: Recipe[]) => {
+				console.log(data);
 				setRecipes(data);
-				console.log("RECIPES", recipes)
-				setHasLoaded(true);
 			})
+			.catch((error) => {
+        console.log(error);
+      });
 	};
 
 	/**
 	 * Fetches recipe data upon startup.
 	 */
-	useEffect(() => {
-		if (location.state != null) {
-			getRecipe(location.state.query);
-			console.log(recipes)
-		}
-	}, []);
+	useEffect(() => { // useEffect hook 
+		// setTimeout(() => { // simulate a delay 
+			// setIsLoading(true);
+		getRecipe(location.state.query);
+		console.log(recipes)
+		// }, 2000); 
+	}, [location.state.query]); 
 
 	/**
 	 * Setting initial index of recipe to display and recipe to display.
 	 */
 	useEffect(() => {
-		if (hasLoaded) {
-			setRecentIndex(getRandomInt(recipes.length));
-			setRecipeToDisplay(recipes[recentIndex]);
-			console.log("RECIPE TO DISPAY", recipeToDisplay);
-		}
-	}, [hasLoaded])
+		setRecentIndex(getRandomInt(recipes.length));
+		setRecipeToDisplay(recipes[recentIndex]);
+		console.log("RECIPE TO DISPLAY", recipeToDisplay);
+		setIsLoading(false);
+	}, [recipes])
 
   return (
 		location.state != null
-			? <div className="min-h-screen min-w-screen bg-[#282c34] flex flex-col px-20 py-40 space-y-4 text-white">
-					<div className="grid place-items-center">
-						<h2 className="text-4xl font-semibold">
-							Random Recipe
-						</h2>
-					</div>
-					<div className="grid place-items-center">
-						{recipeToDisplay.title ?? ''}
-						<div className="m-4">
-							<img src={recipeToDisplay.image} alt={recipeToDisplay.title ?? ''}/>
+			? isLoading 
+				? <div>
+					LOADING
+				</div>
+				: <div className="min-h-screen min-w-screen bg-[#282c34] flex flex-col px-20 py-40 space-y-4 text-white">
+						<div className="grid place-items-center">
+							<h2 className="text-4xl font-semibold">
+								Random Recipe
+							</h2>
+						</div>
+						<div className="grid place-items-center">
+							{recipeToDisplay != undefined ? recipeToDisplay.title : ''}
+							<div className="m-4">
+								<img src={recipeToDisplay != undefined ? recipeToDisplay.image : ''} alt={recipeToDisplay != undefined ? recipeToDisplay.title : ''}/>
+							</div>
+						</div>
+						<div className="grid place-items-center">
+							<GenerateNewRecipe setNewRecipe={() => {
+								setRecipeToDisplay(recipes[getRandomInt(recipes.length)]);
+							}}/>
+						</div>
+						<div className="grid place-items-center">
+							<ButtonToStartPage/>
 						</div>
 					</div>
-					<div className="px-64">
-						<ButtonToStartPage/>
-					</div>
-				</div>
 			: <div className="min-h-screen min-w-screen bg-[#282c34] grid place-items-center">
 					<div className="flex flex-col space-y-4 place-items-center">
 						<div className="text-white text-4xl">
@@ -116,6 +127,21 @@ export default function RecipePage(): ReactElement {
 					</div>
 				</div>
   );
+}
+
+/**
+ * 
+ * @returns A button that generates another random recipe with current ingredients on click
+ */
+function GenerateNewRecipe({setNewRecipe}: any): ReactElement {
+	return (
+		<div 
+			className="w-fit rounded-lg text-white px-6 py-2 bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-800 font-medium cursor-pointer grid place-items-center"
+			onClick={setNewRecipe}
+		>
+			Get Other Random Recipe
+		</div>
+	)
 }
 
 function ButtonToStartPage(): ReactElement {
