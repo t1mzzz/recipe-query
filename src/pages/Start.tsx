@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
  */
 export default function Start(): ReactElement {
   return (
-    <div className="min-h-screen min-w-screen bg-[#282c34] flex flex-col px-20 py-40 space-y-4 overflow-scroll">
+    <div className="min-h-screen min-w-screen bg-[#282c34] flex flex-col px-20 py-40 space-y-4">
       <div className="grid place-items-center">
         <h2 className="text-4xl font-semibold text-white">
           Recipe Query
