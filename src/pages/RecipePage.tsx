@@ -142,7 +142,7 @@ function GenerateNewRecipe({setNewRecipe}: any): ReactElement {
 			className="w-fit rounded-lg text-white px-6 py-2 bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-800 font-medium cursor-pointer grid place-items-center"
 			onClick={setNewRecipe}
 		>
-			Get Other Random Recipe
+			Get Other Recipe
 		</div>
 	)
 }
