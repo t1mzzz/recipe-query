@@ -89,10 +89,10 @@ export default function RecipePage(): ReactElement {
 	}, [recipes]);
 
 	const openDetails = () => { 
-			setDisplayDetails(true);
+		setDisplayDetails(true);
 	}
 
-  return (
+  	return (
 		location.state != null
 			? <div className="min-h-screen min-w-screen bg-[#282c34] flex flex-col px-20 py-40 space-y-4 text-white">
 					<div className="grid place-items-center">
