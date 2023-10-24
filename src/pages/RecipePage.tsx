@@ -5,8 +5,8 @@ import { Recipe, initialRecipe, initialRecipes } from '../interfaces/recipe';
 import DetailsModal from '../components/details_modal';
 
 /**
- * 
- * @returns 
+ * The recipe page.
+ * @returns A recipe page that contains the title, name of recipe, picture of recipe, and a few buttons.
  */
 export default function RecipePage(): ReactElement {
 	const location = useLocation();
@@ -145,7 +145,7 @@ export default function RecipePage(): ReactElement {
 /**
  * Displays a button to switch between recipes with current input.
  *
- * @param param0 A callback function that switches the recipes.
+ * @param setNewRecipe A callback function that switches the recipes.
  * @returns A button that generates another random recipe with current ingredients on click.
  */
 function GenerateNewRecipe({setNewRecipe}: any): ReactElement {

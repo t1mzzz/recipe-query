@@ -2,8 +2,8 @@ import React, { ReactElement, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 /**
- * 
- * @returns 
+ * The start page, with a title, search bar, and button for search. 
+ * @returns A Start Page with a title, search bar, and button for search.
  */
 export default function Start(): ReactElement {
   return (
@@ -26,8 +26,8 @@ export default function Start(): ReactElement {
 }
 
 /**
- * 
- * @returns 
+ * The search bar in the home page.
+ * @returns A functional search bar that is used for user to input ingredients.
  */
 function SearchIngredientsBar(): ReactElement {
   const [ingredientQuery, setIngredientQuery] = useState<string>('');

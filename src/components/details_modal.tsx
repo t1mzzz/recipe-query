@@ -1,5 +1,11 @@
 import { Ingredient } from "../interfaces/recipe";
 
+/**
+ * A modal that displays some details regarding currently displayed recipe.
+ * @param recipe The Recipe type that resembles the currently displayed recipe.
+ * @param setDisplayDetails A setState that verifies if the modal should be open or closed (by default open/true when this modal is shown).
+ * @returns A modal with details regarding missing ingredients.
+ */
 export default function DetailsModal({recipe, setDisplayDetails}: any) {
     return (
         <div className="text-black flex place-items-center items-center justify-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none backdrop-blur-[5px] bg-black/50">
