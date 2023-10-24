@@ -30,17 +30,23 @@ export default function Start(): ReactElement {
  * @returns 
  */
 function SearchIngredientsBar(): ReactElement {
-  const [ingredientQuery, setIngredientQuery] = useState('');
+  const [ingredientQuery, setIngredientQuery] = useState<string>('');
+  const [displayError, setDisplayError] = useState<boolean>(false);
   const navigate = useNavigate();
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    navigate('/recipe', {
-      state: {
-        query: ingredientQuery
-      }
-    });
+    if (ingredientQuery !== '') {
+      setDisplayError(false);
+      navigate('/recipe', {
+        state: {
+          query: ingredientQuery
+        }
+      });
+    } else {
+      setDisplayError(true);
+    }
   };
 
   return (
@@ -83,6 +89,12 @@ function SearchIngredientsBar(): ReactElement {
           Search
         </button>
       </div>
+      {displayError
+        ? <div className="text-red-400">
+            Query cannot be empty.
+          </div>
+        : <div></div>
+      }
     </form>
   )
 }
