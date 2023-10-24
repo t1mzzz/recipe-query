@@ -8,8 +8,6 @@ export interface Recipe {
     missedIngredients: Ingredient[],
 }
 
-export const initialRecipes: Recipe[] = []
-
 interface Ingredient {
     id: number,
     amount: number,
@@ -23,4 +21,18 @@ interface Ingredient {
     meta: string[],
     extendedName: string,
     image: string
+}
+
+export const initialRecipes: Recipe[] = []
+
+const initialMissedIngredients: Ingredient[] = [];
+
+export const initialRecipe = {
+    id: -1,
+    title: "",
+    image: "",
+    imageType: "",
+    usedIngredientCount: -1,
+    missedIngredientCount: -1,
+    missedIngredients: initialMissedIngredients
 }
